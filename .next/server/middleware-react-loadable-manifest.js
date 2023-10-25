@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST={"index.js -> ./Webcam":{"id":"index.js -> ./Webcam","files":["static/chunks/pages_Webcam_js.js"]}}
