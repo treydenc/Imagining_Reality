@@ -1,7 +1,7 @@
 // WebcamCapture.js
 import React, { useRef, useState, useCallback } from 'react';
 import Webcam from 'react-webcam';
-import { storage } from './firebase';
+import { storage } from '../lib/firebase';
 import { ref } from "firebase/storage";
 import { uploadBytes } from "firebase/storage";
 import { getDownloadURL } from "firebase/storage";
