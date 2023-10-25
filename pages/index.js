@@ -12,6 +12,7 @@ function Home() {
   const [showCamera, setShowCamera] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showGen, setShowGen] = useState(false);
+  const apiKey = process.env.NEXT_PUBLIC_API_TOKEN;
 
   const handleSubmit = async (event) => {
     console.log('insubmit:' + imageUrl + inputValue);
@@ -24,7 +25,7 @@ function Home() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "key": 'knAkCZMcfHBnG7GUfuUpTvwFqa9Bhitmb27DTzlLqK7weju2MLSo5cvEmyYY',
+        "key": apiKey,
         "prompt": inputValue + " with an old time style, retro feel. aged filter",
         "negative_prompt": 'disfigured, kitsch, ugly, oversaturated, grain, low-res, Deformed, blurry, bad anatomy, disfigured, poorly drawn face, mutation, mutated, extra limb, ugly, poorly drawn hands, missing limb, blurry, floating limbs, disconnected limbs, malformed hands, blur, out of focus, long neck, long body, ugly, disgusting, poorly drawn, childish, mutilated, cartoonish, mangled, old, surreal',
         "init_image": imageUrl || "https://raw.githubusercontent.com/CompVis/stable-diffusion/main/data/inpainting_examples/overture-creations-5sI6fQgYIuo.png",
