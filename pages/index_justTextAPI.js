@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import dynamic from 'next/dynamic';
-import WebcamCapture from './WebcamCapture';
 
 function Home() {
 
