@@ -6,7 +6,6 @@ const handler = async (req, res) => {
     return;
   }
 
-  // Ensure that the body has the expected structure and content
   if (!req.body || typeof req.body.prompt !== 'string') {
     res.status(400).send({ message: 'Invalid request body' });
     return;

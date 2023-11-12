@@ -1,4 +1,3 @@
-
 const response = await openai.createImage({
     model: "dall-e-3",
     prompt: "a white siamese cat",

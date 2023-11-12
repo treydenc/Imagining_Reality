@@ -29,7 +29,7 @@ export const downloadFolderAsZip = async (folderName, sessionTitle) => {
         } catch (error) {
           // Log or handle any errors that occur during the fetch
           console.error("Error fetching file: ", error);
-          throw error; // Or handle the error as appropriate for your application
+          throw error;
         }
       }
   
