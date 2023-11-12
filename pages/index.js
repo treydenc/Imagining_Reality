@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import dynamic from 'next/dynamic';
-import request from 'request';
-
+import vision from './api/vision';
 
 function Home() {
-
   const [inputValue, setInputValue] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,6 +16,7 @@ function Home() {
     console.log('insubmit:' + imageUrl + inputValue);
     event.preventDefault();
     setLoading(true);
+    vision(imageUrl);
     var options = {
       'method': 'POST',
       'url': 'https://stablediffusionapi.com/api/v3/img2img',
@@ -42,24 +41,24 @@ function Home() {
         "track_id": null
       })
     };
-
-    request(options, (error, response) => {
-      console.log('inrequest! YAYAAY');
-      if (error) {
-        console.error('Error:', error);
-      } else {
-        console.log(response.body);
-        const responseData = JSON.parse(response.body);
-        if (responseData && responseData.output && responseData.output[0]) {
-          setImageUrl(responseData.output[0]);
-          console.log('this is our image:' + imageUrl);
-      } else {
-          console.error('Unexpected response format');
-      }
-      }
-      setShowGen(true);
-      setLoading(false);
-    });
+    
+    // request(options, (error, response) => {
+    //   console.log('inrequest! YAYAAY');
+    //   if (error) {
+    //     console.error('Error:', error);
+    //   } else {
+    //     console.log(response.body);
+    //     const responseData = JSON.parse(response.body);
+    //     if (responseData && responseData.output && responseData.output[0]) {
+    //       setImageUrl(responseData.output[0]);
+    //       console.log('this is our image:' + imageUrl);
+    //   } else {
+    //       console.error('Unexpected response format');
+    //   }
+    //   }
+    //   setShowGen(true);
+    //   setLoading(false);
+    // });
 };
 
   const handleConfirm = (imageSrc) => {
@@ -70,8 +69,8 @@ function Home() {
 
   // WebcamCapture Component
   const WebcamCapture = dynamic(() => import('./Webcam'), {
-    ssr: false,  // This will load the component client side only
-    loading: () => <p>Loading...</p>  // Optional loading component
+    ssr: false, 
+    loading: () => <p>Loading...</p> 
   });
 
   return (
@@ -114,7 +113,6 @@ function Home() {
           animation: spin 1s linear infinite;
           border-top-color: #3498db;
         }
-
         @keyframes spin {
           0% {
             transform: rotate(0deg);

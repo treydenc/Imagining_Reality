@@ -1,46 +1,44 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
-import Replicate from 'replicate';
+const fetch = require('node-fetch');
 
 const handler = async (req, res) => {
   if (req.method !== 'POST') {
-    res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).send({ message: 'Method not allowed' });
     return;
   }
 
-  const { value } = req.body;
+  // Ensure that the body has the expected structure and content
+  if (!req.body || typeof req.body.prompt !== 'string') {
+    res.status(400).send({ message: 'Invalid request body' });
+    return;
+  }
 
-  try {
-    const replicate = new Replicate({
-      auth: process.env.REPLICATE_API_TOKEN,
+  const { prompt } = req.body;
+
+
+    const response = await fetch("https://api.replicate.com/v1/predictions", {
+      method: "POST",
+      headers: {
+        Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        version: "2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2",
+        input: { prompt: prompt },
+      }),
     });
 
-   
-    const output = await replicate.run(
-      "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
-      {
-        input: {
-          prompt: value,
-          image_dimensions: "512x512",
-          num_inference_steps: 12,
-          num_outputs: 1,
-          guideance_scale: 3.5,
-          scheduler: "K_EULER" ,
-        },
-      },
-    );
+    // Check if the prediction was successfully created
+    if (response.status !== 201) {
+      let error = await response.json();
+      res.status(500).send({ detail: error.detail || 'Failed to create prediction' });
+      return;
+    }
 
+    // Get the prediction result
+    const prediction = await response.json();
+    res.statusCode = 201;
+    res.end(JSON.stringify(prediction));
 
-    console.log(output)
-    res.status(200).json(output)
-    //res.status(200).json([
-     //   'https://replicate.delivery/pbxt/neqGIe66cYuPOUPM0JqokMfqsX9CRYgvkycUxyqlCKUjwJchA/out-0.png'
-    //  ]
-    //);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error', error });
-  }
 };
 
-export default handler;
+module.exports = handler;

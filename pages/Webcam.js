@@ -29,15 +29,15 @@ const WebcamCapture = ({ onConfirm }) => {
     };
 
     const uploadImageToFirebase = async () => {
-        const imageBlob = dataURLtoBlob(capturedImage);  // Convert Data URL to blob
+        const imageBlob = dataURLtoBlob(capturedImage);
         const storageRef = ref(storage, `images/${new Date().toISOString()}.jpg`);
-        
+
         try {
             await uploadBytes(storageRef, imageBlob);
             console.log('uploaded to firebase');
     
             const downloadURL = await getDownloadURL(storageRef);
-            onConfirm(downloadURL);  // Pass the Firebase URL instead of Data URL
+            onConfirm(downloadURL);
             console.log('recieved FirebaseURL:' + downloadURL);
         } catch (error) {
             console.error("Image upload error: ", error);
