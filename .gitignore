@@ -1,3 +1,31 @@
 .env
 node_modules/
 .next/
+.swc/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+.next
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+node_modules
+target
+dist
+logs
+.cache
+.vscode
+.DS_Store
+.idea
+.next
+yarn-error.log
+npm-debug.log
