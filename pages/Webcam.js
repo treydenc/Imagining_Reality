@@ -28,6 +28,7 @@ const WebcamCapture = ({ onConfirm }) => {
       setCapturedImage('');
     };
 
+  // rename to account for vision
     const uploadImageToFirebase = async () => {
         const imageBlob = dataURLtoBlob(capturedImage);
         const storageRef = ref(storage, `images/${new Date().toISOString()}.jpg`);
@@ -36,13 +37,16 @@ const WebcamCapture = ({ onConfirm }) => {
             await uploadBytes(storageRef, imageBlob);
             console.log('uploaded to firebase');
     
-            const downloadURL = await getDownloadURL(storageRef);
+          const downloadURL = await getDownloadURL(storageRef);
+          
             onConfirm(downloadURL);
-            console.log('recieved FirebaseURL:' + downloadURL);
+          console.log('recieved FirebaseURL:' + downloadURL);
+          return downloadURL;
+          
         } catch (error) {
             console.error("Image upload error: ", error);
         }
-    };
+    };  
 
     // Convert data URL to Blob
     const dataURLtoBlob = (dataurl) => {
@@ -81,7 +85,7 @@ const WebcamCapture = ({ onConfirm }) => {
         {hasCaptured && (
             <div className="mt-4 z-10 space-x-4">
               <button onClick={retake} className="mt-4 bg-red-300 p-4 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-red-200">
-                <img src="/redo.png" alt="Capture" className="h-6 w-6" />
+                <img src="/redo.png" alt="Retake" className="h-6 w-6" />
               </button>
               <button onClick={uploadImageToFirebase} className="mt-4 bg-green-300 p-4 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-green-200">
               <img src="/check.png" alt="Capture" className="h-6 w-6" />
