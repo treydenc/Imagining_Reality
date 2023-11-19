@@ -8,10 +8,12 @@ function Home() {
 	const [inputValue, setInputValue] = useState("");
 	const [imageUrl, setImageUrl] = useState("");
 	const [loading, setLoading] = useState(false);
+	// @ Treyden - what's the purpose of these two? Why are they in state?
 	const [showCamera, setShowCamera] = useState(false);
-	const [showForm, setShowForm] = useState(false);
 	const [showGen, setShowGen] = useState(false);
+	const [isStoryLoading, setIsStoryLoading] = useState(false);
 	const [imageStory, setImageStory] = useState("");
+	const [showForm, setShowForm] = useState(false);
 
 	const handleSubmit = async (event) => {
 		console.log("insubmit:" + imageUrl + inputValue);
@@ -69,6 +71,7 @@ function Home() {
 
 	const handleConfirm = (imageSrc) => {
 		console.log("inHandleConfirm:" + imageSrc);
+		setIsStoryLoading(true);
 		setImageUrl(imageSrc);
 	};
 
@@ -123,6 +126,10 @@ function Home() {
 							</button>
 						</form>
 					</div>
+				</div>
+			) : isStoryLoading ? (
+				<div className="my-auto flex justify-center">
+					<div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
 				</div>
 			) : (
 				<WebcamCapture onConfirm={handleConfirm} />
